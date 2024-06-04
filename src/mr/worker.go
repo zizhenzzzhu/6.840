@@ -47,8 +47,8 @@ func Worker(mapf func(string, string) []KeyValue,
 	for {
 		args := &GetTaskArgs{}
 		reply := &GetTaskReply{}
-		log.Println("Calling Master.GetTask...")
-		call("Master.GetTask", args, reply)
+		log.Println("Calling Coordinator.GetTask...")
+		call("Coordinator.GetTask", args, reply)
 		job := reply.Job
 		if job.JobType == NoJob {
 			break
@@ -107,9 +107,9 @@ func doMap(job Job, taskId string, mapf func(string, string) []KeyValue) {
 
 	newArgs := &ReportSuccessArgs{job, taskId}
 	newReply := &ReportSuccessReply{}
-	log.Println("Job finishes, calling Master.ReportSuccess")
+	log.Println("Job finishes, calling Coordinator.ReportSuccess")
 	log.Printf("JobType is %v", job.JobType)
-	call("Master.ReportSuccess", newArgs, newReply)
+	call("Coordinator.ReportSuccess", newArgs, newReply)
 }
 
 /*
@@ -175,9 +175,9 @@ func doReduce(job Job, taskId string, reducef func(string, []string) string) {
 
 	newArgs := &ReportSuccessArgs{job, taskId}
 	newReply := &ReportSuccessReply{}
-	log.Println("Job finishes, calling Master.ReportSuccess")
+	log.Println("Job finishes, calling Coordinator.ReportSuccess")
 	log.Printf("JobType is %v", job.JobType)
-	call("Master.ReportSuccess", newArgs, newReply)
+	call("Coordinator.ReportSuccess", newArgs, newReply)
 }
 
 /*

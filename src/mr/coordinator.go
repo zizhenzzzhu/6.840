@@ -117,7 +117,7 @@ func (c *Coordinator) Done() bool {
 /*
 第七步创建一个实例对象
 */
-func MakeMaster(files []string, nReduce int) *Coordinator {
+func MakeCoordinator(files []string, nReduce int) *Coordinator {
 	m := Coordinator{
 		rawFiles:       files,
 		blockingJobNum: nReduce,
