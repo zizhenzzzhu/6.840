@@ -1,7 +1,7 @@
 package shardctrler
 
 //
-// Shard controller: assigns shards to replication groups.
+// Shard controler: assigns shards to replication groups.
 //
 // RPC interface:
 // Join(servers) -- add a set of groups (gid -> server-list mapping).
@@ -29,7 +29,13 @@ type Config struct {
 }
 
 const (
-	OK = "OK"
+	OK          = "OK"
+	WrongLeader = "WrongLeader"
+	//Op
+	Join  = "Join"
+	Move  = "Move"
+	Leave = "Leave"
+	Query = "Query"
 )
 
 type Err string
@@ -70,4 +76,20 @@ type QueryReply struct {
 	WrongLeader bool
 	Err         Err
 	Config      Config
+}
+
+type CmdArgs struct {
+	Servers  map[int][]string //Join
+	GIDs     []int            //leave
+	Shard    int              //Move
+	GID      int              //Move
+	Num      int              //Query
+	Op       string
+	ClientId int64
+	Seq      int
+}
+
+type CmdReply struct {
+	Err    Err
+	Config Config
 }
